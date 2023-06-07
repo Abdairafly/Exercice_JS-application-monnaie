@@ -1,0 +1,105 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+  <meta charset="UTF-8">
+  <title>Calcul de monnaie à rendre</title>
+  <style>
+    body {
+      margin: 0;
+      padding: 0;
+      font-family: Arial, sans-serif;
+    }
+
+    .container {
+      max-width: 400px;
+      margin: 50px auto;
+      padding: 30px;
+      background-color: #f8f9fa;
+      border-radius: 5px;
+      box-shadow: 0px 0px 20px rgba(0, 0, 0, 0.1);
+    }
+
+    h1 {
+      text-align: center;
+      margin-bottom: 30px;
+      color: brown;
+    }
+
+    .form-group {
+      margin-bottom: 20px;
+    }
+
+    label {
+      font-weight: bold;
+    }
+
+    .btn-calculate {
+      display: block;
+      width: 100%;
+      padding: 10px;
+      font-size: 16px;
+      text-align: center;
+      background-color: #dc3545;
+      color: white;
+      border: none;
+      cursor: pointer;
+    }
+
+    .result {
+      margin-top: 20px;
+      font-size: 18px;
+      font-weight: bold;
+    }
+
+    .total {
+      font-weight: normal;
+    }
+  </style>
+</head>
+<body>
+  <div class="container">
+    <h1>Calcul de monnaie à rendre</h1>
+    <div class="form-group">
+      <label for="amountInput">Montant du ticket à payer :</label>
+      <input type="number" class="form-control" id="amountInput" min="0" step="0.01" required>
+    </div>
+    <div class="form-group">
+      <label for="paymentInput">Somme donnée par le client :</label>
+      <input type="number" class="form-control" id="paymentInput" min="0" step="0.01" required>
+    </div>
+    <button class="btn-calculate" onclick="calculateChange()">Calculer</button>
+    <div id="result" class="result"></div>
+  </div>
+
+  <script>
+    function calculateChange() {
+      var amount = parseFloat(document.getElementById('amountInput').value);
+      var payment = parseFloat(document.getElementById('paymentInput').value);
+
+      if (payment < amount) {
+        var result = document.getElementById('result');
+        result.innerHTML = "Il vous reste à payer : " + (amount - payment) + " Euros";
+        return;
+      }
+
+      var change = payment - amount;
+      var notes10 = Math.floor(change / 10);
+      change %= 10;
+      var notes5 = Math.floor(change / 5);
+      change %= 5;
+      var coins1 = Math.floor(change);
+
+      var total10 = notes10 * 10;
+      var total5 = notes5 * 5;
+      var total1 = coins1 * 1;
+
+      var result = document.getElementById('result');
+      result.innerHTML = "Monnaie à rendre :<br>";
+      result.innerHTML += "- Billets de 10 Euros : " + notes10 + " (Total : " + total10 + " Euros)<br>";
+      result.innerHTML += "- Billets de 5 Euros : " + notes5 + " (Total : " + total5 + " Euros)<br>";
+      result.innerHTML += "- Pièces de 1 Euro : " + coins1 + " (Total : " + total1 + " Euros)<br>";
+      result.innerHTML += "<br>Total des billets : " + (total10 + total5) + " Euros";
+    }
+  </script>
+</body>
+</html>
